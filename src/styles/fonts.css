@@ -1,0 +1,36 @@
+@layer base {
+  /**
+    Body font
+  */
+  @font-face {
+    font-family: 'JetBrains Mono NerdFont';
+    src: url('/fonts/JetBrainsMonoNerdFont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /**
+    Header/Title font
+  */
+  @font-face {
+    font-family: 'Didact Gothic';
+    src: url('/fonts/DidactGothic-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  body {
+    font-family: 'JetBrains Mono NerdFont', monospace;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Didact Gothic', sans-serif;
+  }
+}

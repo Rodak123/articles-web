@@ -1,0 +1,11 @@
+/* TEAM */
+	Creator: Radek Titěra
+  Discord: _rodak
+	From: Prague, Czechia
+
+/* SITE */
+	Last update:2026/05/30
+	Language: English
+	Doctype: HTML5
+	IDE: VS Code
+  Components: React, Vite
