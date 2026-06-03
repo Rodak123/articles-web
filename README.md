@@ -1,6 +1,12 @@
 # articles-web
 
+View it here: [articles.titera.dev](https://articles.titera.dev)
+
 My personal website with my articles.
+
+## Disclaimer
+
+This web is work in progress
 
 ## Setup
 
