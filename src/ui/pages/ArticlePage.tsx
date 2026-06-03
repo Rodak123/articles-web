@@ -6,8 +6,13 @@ import { Typography } from '../components/Typography';
 import { Navbar } from '../components/Navbar';
 import { ReturnLink } from '../components/ReturnLink';
 import { Loader } from '../components/Loader';
-import { ArrowDownIcon, ArrowUpIcon } from '@phosphor-icons/react';
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  LineVerticalIcon,
+} from '@phosphor-icons/react';
 import { ROUTES } from '../../routes';
+import { stringifyDate } from '../../libs/utils/stringifyDate';
 
 export const ArticlePage: React.FC = () => {
   const { articleSlug } = useParams();
@@ -29,8 +34,26 @@ export const ArticlePage: React.FC = () => {
   return (
     <DefaultLayout>
       <Navbar title={article !== null ? article.title : ''} />
-      <div className='flex flex-col gap-4 grow'>
-        <ReturnLink />
+      <div className='flex flex-col gap-2 grow'>
+        <div className='flex flex-row items-center gap-2 mt-1'>
+          <ReturnLink />
+          <LineVerticalIcon />
+          <Typography>{stringifyDate(article.date)}</Typography>
+          <LineVerticalIcon />
+          <div>
+            {article.authors.map((author, i) => {
+              const hasPrevious = i > 0;
+              return (
+                <div key={author.slug}>
+                  {hasPrevious && <Typography>, </Typography>}
+                  <Typography>
+                    {author.firstName} {author.lastName}
+                  </Typography>
+                </div>
+              );
+            })}
+          </div>
+        </div>
         <div
           className='article-content'
           dangerouslySetInnerHTML={{ __html: article.htmlContent }}

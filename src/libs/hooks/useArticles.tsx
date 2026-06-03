@@ -3,6 +3,8 @@ import {
   ArticlesMetaSchema,
   type Article,
   type ArticleMeta,
+  type ArticlesMeta,
+  type ArticleAuthor,
 } from '../types/article';
 import articlesMetaJSON from '../../../articles/articlesMeta.json';
 
@@ -11,28 +13,58 @@ const articleLoaders = import.meta.glob('../../data/articles/*/index.html', {
   import: 'default',
 });
 
-const loadArticlesMeta = (): ArticleMeta[] => {
+const loadArticlesMeta = (): ArticlesMeta => {
   const articlesMeta = ArticlesMetaSchema.parse(articlesMetaJSON);
 
-  return articlesMeta.articleOrder.map((articleSlug) => {
-    const articleMeta = articlesMeta.articlesMeta[articleSlug];
-    if (articleMeta === undefined) {
-      throw new Error(
-        `Slug: "${articleSlug}" does not exist in articles meta JSON!`,
+  const authors: ArticleAuthor[] = Object.keys(articlesMeta.authors).map(
+    (authorSlug) => {
+      return {
+        ...articlesMeta.authors[authorSlug],
+        slug: authorSlug,
+      };
+    },
+  );
+
+  const articles: ArticleMeta[] = articlesMeta.articleOrder.map(
+    (articleSlug) => {
+      const articleMeta = articlesMeta.articlesMeta[articleSlug];
+      if (articleMeta === undefined) {
+        throw new Error(
+          `Article slug: "${articleSlug}" does not exist in articles meta JSON!`,
+        );
+      }
+
+      const articleAuthors: ArticleAuthor[] = articleMeta.authors.map(
+        (authorSlug) => {
+          const author = authors.find((a) => a.slug === authorSlug);
+          if (author === undefined) {
+            throw new Error(
+              `Author slug: "${authorSlug}" does not exist in articles meta JSON!`,
+            );
+          }
+          return author;
+        },
       );
-    }
-    return {
-      ...articleMeta,
-      slug: articleSlug,
-    };
-  });
+
+      return {
+        ...articleMeta,
+        slug: articleSlug,
+        authors: articleAuthors,
+      };
+    },
+  );
+
+  return {
+    authors,
+    articles,
+  };
 };
 
 export const useArticles = () => {
-  const articlesMeta: ArticleMeta[] = loadArticlesMeta();
+  const articlesMeta: ArticlesMeta = loadArticlesMeta();
 
   return {
-    articlesMeta,
+    ...articlesMeta,
   };
 };
 
@@ -83,7 +115,7 @@ export const useArticle = (articleSlug?: string): ArticleState => {
       isLoading: true,
     });
 
-    const articleIndex = articlesMeta.findIndex(
+    const articleIndex = articlesMeta.articles.findIndex(
       (meta) => meta.slug === articleSlug,
     );
 
@@ -111,10 +143,10 @@ export const useArticle = (articleSlug?: string): ArticleState => {
         const htmlContent = await loader();
 
         if (isMounted) {
-          const articleMeta = articlesMeta[articleIndex];
+          const articleMeta = articlesMeta.articles[articleIndex];
 
-          const previous = articlesMeta[articleIndex + 1] ?? null;
-          const next = articlesMeta[articleIndex - 1] ?? null;
+          const previous = articlesMeta.articles[articleIndex + 1] ?? null;
+          const next = articlesMeta.articles[articleIndex - 1] ?? null;
 
           const article: Article = {
             ...articleMeta,

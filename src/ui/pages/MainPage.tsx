@@ -5,7 +5,7 @@ import { ArticleLink } from '../components/ArticleLink';
 import { Typography } from '../components/Typography';
 
 export const MainPage: React.FC = () => {
-  const { articlesMeta } = useArticles();
+  const { articles } = useArticles();
 
   return (
     <DefaultLayout>
@@ -19,7 +19,7 @@ export const MainPage: React.FC = () => {
         .
       </Typography>
       <div className='flex flex-col gap-4 my-4'>
-        {articlesMeta.map((articleMeta) => (
+        {articles.map((articleMeta) => (
           <ArticleLink key={articleMeta.slug} articleMeta={articleMeta} />
         ))}
       </div>
