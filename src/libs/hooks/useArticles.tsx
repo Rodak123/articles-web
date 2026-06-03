@@ -1,25 +1,35 @@
 import { useEffect, useState } from 'react';
-import type { Article, ArticleMeta } from '../types/article';
-
-const articleList = import.meta.glob('../../data/articles/*/index.html');
+import {
+  ArticlesMetaSchema,
+  type Article,
+  type ArticleMeta,
+} from '../types/article';
+import articlesMetaJSON from '../../../articles/articlesMeta.json';
 
 const articleLoaders = import.meta.glob('../../data/articles/*/index.html', {
   query: '?raw',
   import: 'default',
 });
 
-export const useArticles = () => {
-  const articlesMeta: ArticleMeta[] = Object.keys(articleList).map((path) => {
-    const parts = path.split('/');
-    const foldername = path.split('/')[parts.length - 2];
+const loadArticlesMeta = (): ArticleMeta[] => {
+  const articlesMeta = ArticlesMetaSchema.parse(articlesMetaJSON);
 
+  return articlesMeta.articleOrder.map((articleSlug) => {
+    const articleMeta = articlesMeta.articlesMeta[articleSlug];
+    if (articleMeta === undefined) {
+      throw new Error(
+        `Slug: "${articleSlug}" does not exist in articles meta JSON!`,
+      );
+    }
     return {
-      slug: foldername,
-      title: foldername,
-      description: 'Random description text.',
-      date: new Date(),
+      ...articleMeta,
+      slug: articleSlug,
     };
   });
+};
+
+export const useArticles = () => {
+  const articlesMeta: ArticleMeta[] = loadArticlesMeta();
 
   return {
     articlesMeta,
@@ -55,6 +65,8 @@ const stateBools = {
   isFailed: false,
 } as const;
 
+const articlesMeta = loadArticlesMeta();
+
 export const useArticle = (articleSlug?: string): ArticleState => {
   const [data, setData] = useState<ArticleState>({
     state: 'loading',
@@ -71,7 +83,11 @@ export const useArticle = (articleSlug?: string): ArticleState => {
       isLoading: true,
     });
 
-    if (articleSlug === undefined) {
+    const articleIndex = articlesMeta.findIndex(
+      (meta) => meta.slug === articleSlug,
+    );
+
+    if (articleSlug === undefined || articleIndex === -1) {
       setData(() => ({
         state: 'failed',
         article: null,
@@ -95,15 +111,21 @@ export const useArticle = (articleSlug?: string): ArticleState => {
         const htmlContent = await loader();
 
         if (isMounted) {
+          const articleMeta = articlesMeta[articleIndex];
+
+          const previous = articlesMeta[articleIndex + 1] ?? null;
+          const next = articlesMeta[articleIndex - 1] ?? null;
+
+          const article: Article = {
+            ...articleMeta,
+            previous,
+            next,
+            htmlContent,
+          };
+
           setData({
             state: 'success',
-            article: {
-              slug: articleSlug,
-              title: articleSlug,
-              description: 'desc',
-              date: new Date(),
-              htmlContent,
-            },
+            article: article,
             ...stateBools,
             isSuccess: true,
           });

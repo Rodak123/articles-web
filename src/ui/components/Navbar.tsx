@@ -15,7 +15,7 @@ export const Navbar: React.FC<NavbarProps> = ({ title }) => {
       <div className='grow'>
         <Typography
           variant='h1'
-          size={isMobile ? '6xl' : '7xl'}
+          size={isMobile ? '5xl' : '6xl'}
           className={cm(
             'tracking-widest text-start pointer-events-auto',
             !isMobile && 'whitespace-nowrap',

@@ -4,12 +4,15 @@ import type { ArticleMeta } from '../../libs/types/article';
 import { cm } from '../../libs/utils/cm';
 import { ROUTES } from '../../routes';
 import { Typography } from './Typography';
+import { useResponsive } from '../../libs/hooks/useResponsive';
 
 interface ArticleLinkProps {
   articleMeta: ArticleMeta;
 }
 
 export const ArticleLink: React.FC<ArticleLinkProps> = ({ articleMeta }) => {
+  const { isMobile } = useResponsive();
+
   return (
     <Link to={ROUTES.ARTICLE(articleMeta.slug)} className='group'>
       <div className='p-2 flex flex-row gap-4 items-center'>
@@ -32,9 +35,21 @@ export const ArticleLink: React.FC<ArticleLinkProps> = ({ articleMeta }) => {
           />
         </div>
         <div className='flex flex-col grow'>
-          <Typography size='2xl' variant='h2'>
-            {articleMeta.slug}
-          </Typography>
+          {isMobile ? (
+            <>
+              <Typography size='2xl' variant='h2'>
+                {articleMeta.title}
+              </Typography>
+              <Typography>@ {articleMeta.date.toLocaleDateString()}</Typography>
+            </>
+          ) : (
+            <div className='flex flex-row items-center gap-2'>
+              <Typography size='2xl' variant='h2' className='inline-block grow'>
+                {articleMeta.title}
+              </Typography>
+              <Typography>@ {articleMeta.date.toLocaleDateString()}</Typography>
+            </div>
+          )}
           <Typography size='md'>{articleMeta.description}</Typography>
         </div>
       </div>

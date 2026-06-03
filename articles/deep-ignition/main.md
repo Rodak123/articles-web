@@ -29,6 +29,14 @@ The automation genre is one of my most favorite game genres. So I wanted to make
 
 They are the best!
 
+```cs
+struct Hexagon {
+  public int q;
+  public int r;
+  public int s;
+}
+```
+
 #### Saving & Loading
 
 #### Game Data Loading
