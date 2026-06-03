@@ -1,11 +1,11 @@
 import { createContext } from 'react';
-import type { Theme } from '../types/theme';
+import type { Theme, ThemeMode } from '../types/theme';
 
 interface ThemeContextType {
   theme: Theme;
-  changeTheme: (theme: Theme) => void;
-  cycleTheme: () => void;
+  themeMode: ThemeMode;
+  changeThemeMode: (theme: ThemeMode) => void;
+  cycleThemeMode: () => void;
 }
 
 export const ThemeContext = createContext<ThemeContextType | null>(null);
-

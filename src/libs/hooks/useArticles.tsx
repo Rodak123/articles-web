@@ -15,6 +15,8 @@ export const useArticles = () => {
 
     return {
       slug: foldername,
+      title: foldername,
+      description: 'Random description text.',
       date: new Date(),
     };
   });
@@ -97,6 +99,8 @@ export const useArticle = (articleSlug?: string): ArticleState => {
             state: 'success',
             article: {
               slug: articleSlug,
+              title: articleSlug,
+              description: 'desc',
               date: new Date(),
               htmlContent,
             },

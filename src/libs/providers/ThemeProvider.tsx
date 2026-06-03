@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
-import { type ThemeMode, Themes, type Theme, ThemeModes } from '../types/theme';
+import { type ThemeMode, Themes, ThemeModes } from '../types/theme';
 import { resolveTheme } from '../utils/resolveTheme';
 
 interface ThemeProviderProps {
@@ -35,19 +35,20 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     if (useLS && themeKey) localStorage.setItem(themeLSKey, themeKey);
   }, [themeMode, themeLSKey, useLS]);
 
-  const changeTheme = (theme: Theme) => setThemeMode(theme);
-  const cycleTheme = () => {
-    const themes = Object.values(Themes);
-    const current = themes.findIndex((t) => t === themeMode);
-    setThemeMode(themes[(current + 1) % themes.length]);
+  const changeThemeMode = (theme: ThemeMode) => setThemeMode(theme);
+  const cycleThemeMode = () => {
+    const themeModes = Object.values(ThemeModes);
+    const current = themeModes.findIndex((t) => t === themeMode);
+    setThemeMode(themeModes[(current + 1) % themeModes.length]);
   };
 
   return (
     <ThemeContext.Provider
       value={{
+        themeMode,
         theme: resolveTheme(themeMode),
-        changeTheme,
-        cycleTheme,
+        changeThemeMode,
+        cycleThemeMode,
       }}
     >
       {children}
