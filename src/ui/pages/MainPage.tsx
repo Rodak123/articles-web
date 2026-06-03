@@ -1,23 +1,19 @@
+import { useArticles } from '../../libs/hooks/useArticles';
 import { ROUTES } from '../../routes';
 import { Typography } from '../components/Typography';
 import { DefaultLayout } from './layouts/DefaultLayout';
 
-const articleList = import.meta.glob('../../data/articles/*/index.html');
-
 export const MainPage: React.FC = () => {
-  const folderNames = Object.keys(articleList).map((path) => {
-    const parts = path.split('/');
-    return parts[parts.length - 2];
-  });
+  const { articlesMeta } = useArticles();
 
   return (
     <DefaultLayout>
       <Typography size='5xl'>Articles</Typography>
       <ul>
-        {folderNames.map((folder) => (
-          <li key={folder} className='py-2'>
-            <a href={ROUTES.ARTICLE(folder)} className='hover:underline'>
-              {folder.replace(/-/g, ' ')}
+        {articlesMeta.map((meta) => (
+          <li key={meta.slug} className='py-2'>
+            <a href={ROUTES.ARTICLE(meta.slug)} className='hover:underline'>
+              {meta.slug} {meta.date.toDateString()}
             </a>
           </li>
         ))}
