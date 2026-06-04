@@ -13,7 +13,7 @@ const App = () => {
         <Links />
       </head>
       <body>
-        <ThemeProvider defaultThemeMode='system'>
+        <ThemeProvider defaultThemeMode='system' useLS>
           <Outlet />
         </ThemeProvider>
         <ScrollRestoration />
