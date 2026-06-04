@@ -1,12 +1,12 @@
 import type { Article } from '../types/article';
 import { getRawArticleLoaders } from './articleLoaders';
-import { loadArticlesMeta } from './loadArticlesMeta';
+import { loadWebData } from './loadWebData';
 
-const articlesMeta = loadArticlesMeta();
+const { articlesMeta } = loadWebData();
 const articleLoaders = getRawArticleLoaders();
 
 export const loadArticle = async (articleSlug?: string) => {
-  const articleIndex = articlesMeta.articles.findIndex(
+  const articleIndex = articlesMeta.findIndex(
     (meta) => meta.slug === articleSlug,
   );
 
@@ -26,10 +26,10 @@ export const loadArticle = async (articleSlug?: string) => {
     const loader = articleLoaders[fileKey];
     const htmlContent = await loader();
 
-    const articleMeta = articlesMeta.articles[articleIndex];
+    const articleMeta = articlesMeta[articleIndex];
 
-    const previous = articlesMeta.articles[articleIndex + 1] ?? null;
-    const next = articlesMeta.articles[articleIndex - 1] ?? null;
+    const previous = articlesMeta[articleIndex + 1] ?? null;
+    const next = articlesMeta[articleIndex - 1] ?? null;
 
     const article: Article = {
       ...articleMeta,

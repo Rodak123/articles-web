@@ -1,0 +1,69 @@
+{
+  "authors": {
+    "radek": {
+      "firstName": "Radek",
+      "lastName": "Titěra"
+    }
+  },
+  "projects": {
+    "articles-web": {
+      "title": "Articles Web",
+      "links": {
+        "github": ["https://github.com/Rodak123/articles-web"],
+        "web": ["https://articles.titera.dev"]
+      }
+    },
+    "quarkup": {
+      "title": "Quarkup",
+      "links": {
+        "github": ["https://github.com/Rodak123/quarkup"],
+        "npm": ["https://www.npmjs.com/package/quarkup"]
+      }
+    },
+    "deep-ignition": {
+      "title": "Deep Ignition",
+      "links": {
+        "itch": ["https://rodakdev.itch.io/deep-ignition"]
+      }
+    },
+    "time-lords-legacy": {
+      "title": "Time Lords Legacy",
+      "links": {
+        "itch": ["https://rodakdev.itch.io/time-lords-legacy"]
+      }
+    },
+    "just-hexagons": {
+      "title": "Just Hexagons",
+      "links": {
+        "itch": ["https://rodakdev.itch.io/just-hexagons"],
+        "github": ["https://github.com/Rodak123/Hexagons"],
+        "unityAssetStore": [
+          "https://assetstore.unity.com/packages/tools/utilities/just-hexagons-345388"
+        ]
+      }
+    }
+  },
+  "articlesMeta": {
+    "articles-web": {
+      "title": "Personal Site",
+      "description": "How I made my personal web and automated deployment using Docker and Github Actions.",
+      "date": "6/1/2026",
+      "authors": ["radek"],
+      "projects": ["articles-web", "quarkup"]
+    },
+    "time-lords-legacy": {
+      "title": "Time Lords Legacy",
+      "description": "My first incremental game for the Unity anniversary Game Jam.",
+      "date": "6/2/2026",
+      "authors": ["radek"],
+      "projects": ["time-lords-legacy"]
+    },
+    "deep-ignition": {
+      "title": "Deep Ignition",
+      "description": "An automatization factory building game and my year-long high school final project.",
+      "date": "6/3/2026",
+      "authors": ["radek"],
+      "projects": ["deep-ignition", "just-hexagons"]
+    }
+  }
+}

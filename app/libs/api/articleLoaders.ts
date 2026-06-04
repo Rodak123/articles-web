@@ -1,12 +1,12 @@
-import articlesMetaJSON from '../../../articles/articlesMeta.json';
+import webDataJSON from '../../../articles/webData.json';
 
 const articleLoaders = import.meta.glob('../../data/articles/*/index.html', {
   query: '?raw',
   import: 'default',
 });
 
-export const getRawArticlesMetaJSON = () => {
-  return articlesMetaJSON;
+export const getRawWebDataJSON = () => {
+  return webDataJSON;
 };
 
 export const getRawArticleLoaders = () => {

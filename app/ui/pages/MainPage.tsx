@@ -2,32 +2,31 @@ import { DefaultLayout } from './layouts/DefaultLayout';
 import { Navbar } from '../components/Navbar';
 import { ArticleLink } from '../components/ArticleLink';
 import { Typography } from '../components/Typography';
-import { loadArticlesMeta } from '../../libs/api/loadArticlesMeta';
 import { useLoaderData } from 'react-router';
+import { loadWebData } from '../../libs/api/loadWebData';
+import { Href } from '../components/Href';
 
 export const loader = async () => {
-  const articlesMeta = loadArticlesMeta();
+  const webData = loadWebData();
 
-  return { articlesMeta };
+  return { webData };
 };
 
 const MainPage: React.FC = () => {
-  const { articlesMeta } = useLoaderData<typeof loader>();
+  const { webData } = useLoaderData<typeof loader>();
 
   return (
     <DefaultLayout>
       <Navbar title="Radek's Articles" />
       <Typography>
-        Here are my articles about my projects and discoveries. Read more about
-        me on my personal website at{' '}
-        <a className='pretty-link' href='https://titera.dev'>
-          titera.dev
-        </a>
-        . Keep in mind that this website is under development!
+        Here are articles about my projects and discoveries. Read more about me
+        on my personal website at{' '}
+        <Href href='https://titera.dev'>titera.dev</Href>. Keep in mind that
+        this website is under development!
       </Typography>
-      {articlesMeta.articles.length > 0 ? (
+      {webData.articlesMeta.length > 0 ? (
         <div className='flex flex-col gap-4 my-4'>
-          {articlesMeta.articles.map((articleMeta) => (
+          {webData.articlesMeta.map((articleMeta) => (
             <ArticleLink key={articleMeta.slug} articleMeta={articleMeta} />
           ))}
         </div>

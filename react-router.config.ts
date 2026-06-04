@@ -1,5 +1,5 @@
 import type { Config } from '@react-router/dev/config';
-import { loadArticlesMeta } from './app/libs/api/loadArticlesMeta';
+import { loadWebData } from './app/libs/api/loadWebData';
 import { ROUTE_PATHS } from './app/config';
 
 export default {
@@ -8,8 +8,8 @@ export default {
   async prerender({ getStaticPaths }) {
     const staticPaths = getStaticPaths();
 
-    const { articles } = loadArticlesMeta();
-    const articlePaths = articles.map((article) =>
+    const { articlesMeta } = loadWebData();
+    const articlePaths = articlesMeta.map((article) =>
       ROUTE_PATHS.ARTICLE(article.slug),
     );
 

@@ -44,12 +44,23 @@ const ArticlePage = () => {
           <LineVerticalIcon />
           <Typography>{stringifyAuthors(article.authors)}</Typography>
         </div>
+        {article.projects.length > 0 && (
+          <div className='flex flex-row gap-2'>
+            <Typography>Projects:</Typography>
+            {article.projects.map((project) => {
+              return (
+                <div key={project.slug}>
+                  <Typography>{project.title}</Typography>
+                </div>
+              );
+            })}
+          </div>
+        )}
         <div
           className='article-content'
           dangerouslySetInnerHTML={{ __html: article.htmlContent }}
         />
       </div>
-
       {(article.next || article.previous) && (
         <div className='flex flex-col gap-2 mt-4'>
           <Typography variant='h2'>Read more:</Typography>
