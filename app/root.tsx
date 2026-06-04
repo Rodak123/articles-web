@@ -3,10 +3,6 @@ import { ThemeProvider } from './libs/providers/ThemeProvider';
 import { ErrorPage } from './ui/pages/ErrorPage';
 import './styles/main.css';
 
-export const links = () => [
-  { rel: 'icon', type: 'image/png', href: '/icon.png' },
-];
-
 const App = () => {
   return (
     <html lang='en'>

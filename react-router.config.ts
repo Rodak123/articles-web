@@ -3,7 +3,7 @@ import { loadArticlesMeta } from './app/libs/api/loadArticlesMeta';
 import { ROUTE_PATHS } from './app/config';
 
 export default {
-  ssr: false,
+  ssr: true,
 
   async prerender({ getStaticPaths }) {
     const staticPaths = getStaticPaths();
