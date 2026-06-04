@@ -10,10 +10,10 @@ This web is work in progress
 
 ## Setup
 
-Compile the markdown articles into the `src/` folder.
+Compile the markdown articles into the `app/` folder.
 
 ```
-npx quarkup m -o ./src/data/articles -m main.md ./articles
+npx quarkup m -o ./app/data/articles -m main.md ./articles
 ```
 
 Run the development server

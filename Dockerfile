@@ -14,7 +14,7 @@ RUN npm run build
 
 # Stage 2: Serve
 FROM nginx:alpine
-COPY --from=build-stage /app/dist /usr/share/nginx/html
+COPY --from=build-stage /app/build/client /usr/share/nginx/html
 # fix SPA redirecting
 RUN sed -i 's/index  index.html index.htm;/index  index.html index.htm; try_files $uri $uri\/ \/index.html;/' /etc/nginx/conf.d/default.conf
 EXPOSE 80
