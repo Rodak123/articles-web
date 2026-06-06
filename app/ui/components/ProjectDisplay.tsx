@@ -1,4 +1,5 @@
 import { isProjectLinkType, type Project } from '../../libs/types/webData';
+import { stringifyLinkType } from '../../libs/utils/stringifyLinkType';
 import { IconLink } from './IconLink';
 import { Typography } from './Typography';
 
@@ -26,7 +27,14 @@ export const ProjectDisplay: React.FC<ProjectDisplayProps> = ({ project }) => {
             if (!isProjectLinkType(linkType)) return;
             const link = project.links[linkType];
             if (link === undefined) return;
-            return <IconLink key={linkType} link={link} type={linkType} />;
+            return (
+              <IconLink
+                key={linkType}
+                title={`Open ${project.title} at ${stringifyLinkType(linkType)}`}
+                href={link}
+                type={linkType}
+              />
+            );
           })}
       </div>
     </div>

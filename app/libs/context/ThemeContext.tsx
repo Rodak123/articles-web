@@ -5,7 +5,7 @@ interface ThemeContextType {
   theme: Theme;
   themeMode: ThemeMode;
   changeThemeMode: (theme: ThemeMode) => void;
-  cycleThemeMode: () => void;
+  getNextThemeMode: () => ThemeMode;
 }
 
 export const ThemeContext = createContext<ThemeContextType | null>(null);

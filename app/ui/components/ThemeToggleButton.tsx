@@ -4,16 +4,17 @@ import { useTheme } from '../../libs/hooks/useTheme';
 import { ThemeModes } from '../../libs/types/theme';
 
 export const ThemeToggleButton: React.FC = () => {
-  const { themeMode, cycleThemeMode } = useTheme();
+  const { themeMode, changeThemeMode, getNextThemeMode } = useTheme();
 
   const handleOnClick = () => {
-    cycleThemeMode();
+    changeThemeMode(getNextThemeMode());
   };
 
   return (
     <Button
       className='h-min w-auto aspect-square'
       variant='ghost'
+      title={`Change color theme to ${getNextThemeMode()}`}
       onClick={handleOnClick}
     >
       {themeMode === ThemeModes.DARK && <MoonStarsIcon size={32} />}

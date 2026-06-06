@@ -41,10 +41,11 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   }, [themeMode, themeLSKey, useLS]);
 
   const changeThemeMode = (theme: ThemeMode) => setThemeMode(theme);
-  const cycleThemeMode = () => {
+
+  const getNextThemeMode = () => {
     const themeModes = Object.values(ThemeModes);
     const current = themeModes.findIndex((t) => t === themeMode);
-    setThemeMode(themeModes[(current + 1) % themeModes.length]);
+    return themeModes[(current + 1) % themeModes.length];
   };
 
   return (
@@ -53,7 +54,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
         themeMode,
         theme: resolveTheme(themeMode),
         changeThemeMode,
-        cycleThemeMode,
+        getNextThemeMode,
       }}
     >
       {children}

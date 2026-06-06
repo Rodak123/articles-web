@@ -14,7 +14,11 @@ export const ArticleLink: React.FC<ArticleLinkProps> = ({ articleMeta }) => {
   const { isMobile } = useResponsive();
 
   return (
-    <Link to={ROUTE_PATHS.ARTICLE(articleMeta.slug)} className='group'>
+    <Link
+      to={ROUTE_PATHS.ARTICLE(articleMeta.slug)}
+      className='group'
+      title={`Go to article ${articleMeta.title}`}
+    >
       <div className='p-2 flex flex-row gap-4 items-center'>
         <div className='h-8 w-auto aspect-square relative'>
           <ArrowRightIcon

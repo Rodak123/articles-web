@@ -3,16 +3,15 @@ import type { ProjectLinkType } from '../../libs/types/webData';
 import { Themes } from '../../libs/types/theme';
 import { cm } from '../../libs/utils/cm';
 
-interface IconLinkProps {
+interface IconLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   type: ProjectLinkType;
-  link: string;
 }
 
-export const IconLink: React.FC<IconLinkProps> = ({ link, type }) => {
+export const IconLink: React.FC<IconLinkProps> = ({ type, href, ...props }) => {
   const { theme } = useTheme();
 
   return (
-    <a href={link} target='_blank'>
+    <a href={href} target='_blank' {...props}>
       <img
         src={`/icons/${type}.svg`}
         className={cm(
