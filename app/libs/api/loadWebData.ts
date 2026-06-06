@@ -4,7 +4,7 @@ import {
   type WebData,
   WebDataSchema,
   type Project,
-} from '../types/article';
+} from '../types/webData';
 import { getRawWebDataJSON } from './articleLoaders';
 
 export const loadWebData = (): WebData => {
@@ -27,9 +27,9 @@ export const loadWebData = (): WebData => {
     },
   );
 
-  const articlesMeta: ArticleMeta[] = Object.keys(webData.articlesMeta).map(
+  const articlesMeta: ArticleMeta[] = Object.keys(webData.articles).map(
     (articleSlug) => {
-      const articleMeta = webData.articlesMeta[articleSlug];
+      const articleMeta = webData.articles[articleSlug];
 
       const articleAuthors: Author[] = articleMeta.authors.map((authorSlug) => {
         const author = authors.find((a) => a.slug === authorSlug);
@@ -55,12 +55,17 @@ export const loadWebData = (): WebData => {
 
       return {
         ...articleMeta,
+        date: new Date(articleMeta.date),
         slug: articleSlug,
         authors: articleAuthors,
         projects: articleProjects,
       };
     },
   );
+
+  articlesMeta.sort((articleA, articleB) => {
+    return articleB.date.getTime() - articleA.date.getTime();
+  });
 
   return {
     projects,

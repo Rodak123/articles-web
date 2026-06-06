@@ -29,7 +29,7 @@ export const DefaultLayout: React.FC<DefaultLayoutProps> = ({
           'flex flex-col items-center min-h-screen',
         )}
       >
-        <div className='max-w-200 w-full'>{children}</div>
+        <div className='max-w-200 w-full grow flex flex-col'>{children}</div>
       </div>
     </>
   );

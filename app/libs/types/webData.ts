@@ -13,25 +13,27 @@ export const ArticleMetaSchema = z.object({
   projects: z.array(z.string().nonempty()),
 });
 
-const ProjectLinkGroupSchema = z.array(z.string().nonempty());
+const ProjectLinkGroupSchema = z.string().nonempty();
 
 export const ProjectSchema = z.object({
   title: z.string().nonempty(),
-  links: z
-    .object({
-      github: ProjectLinkGroupSchema.optional(),
-      itch: ProjectLinkGroupSchema.optional(),
-      npm: ProjectLinkGroupSchema.optional(),
-      unityAssetStore: ProjectLinkGroupSchema.optional(),
-      other: ProjectLinkGroupSchema.optional(),
-    })
-    .optional(),
+  links: z.object({
+    github: ProjectLinkGroupSchema.optional(),
+    itchio: ProjectLinkGroupSchema.optional(),
+    npm: ProjectLinkGroupSchema.optional(),
+    unityAssetStore: ProjectLinkGroupSchema.optional(),
+    steam: ProjectLinkGroupSchema.optional(),
+  }),
 });
+
+export type ProjectLinkType = keyof Required<
+  z.infer<typeof ProjectSchema>
+>['links'];
 
 export const WebDataSchema = z.object({
   projects: z.record(z.string(), ProjectSchema),
   authors: z.record(z.string(), AuthorSchema),
-  articlesMeta: z.record(z.string(), ArticleMetaSchema),
+  articles: z.record(z.string(), ArticleMetaSchema),
 });
 
 export interface Author extends z.infer<typeof AuthorSchema> {
@@ -61,4 +63,10 @@ export interface WebData {
   projects: Project[];
   authors: Author[];
   articlesMeta: ArticleMeta[];
+}
+
+const validLinkTypes = Object.keys(ProjectSchema.shape.links.shape);
+
+export function isProjectLinkType(key: string): key is ProjectLinkType {
+  return validLinkTypes.includes(key);
 }

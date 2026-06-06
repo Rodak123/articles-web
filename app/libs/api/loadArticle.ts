@@ -1,4 +1,4 @@
-import type { Article } from '../types/article';
+import type { Article } from '../types/webData';
 import { getRawArticleLoaders } from './articleLoaders';
 import { loadWebData } from './loadWebData';
 

@@ -1,6 +1,6 @@
 import { ArrowRightIcon, LineVerticalIcon } from '@phosphor-icons/react';
 import { Link } from 'react-router';
-import type { ArticleMeta } from '../../libs/types/article';
+import type { ArticleMeta } from '../../libs/types/webData';
 import { cm } from '../../libs/utils/cm';
 import { ROUTE_PATHS } from '../../config';
 import { Typography } from './Typography';

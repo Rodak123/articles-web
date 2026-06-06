@@ -13,6 +13,7 @@ import { stringifyDate } from '../../libs/utils/stringifyDate';
 import { loadArticle } from '../../libs/api/loadArticle';
 import type { Route } from './+types/ArticlePage';
 import { stringifyAuthors } from '../../libs/utils/stringifyAuthors';
+import { ProjectDisplay } from '../components/ProjectDisplay';
 
 export const loader = async ({ params }: Route.LoaderArgs) => {
   const article = await loadArticle(params.articleSlug);
@@ -45,16 +46,14 @@ const ArticlePage = () => {
           <Typography>{stringifyAuthors(article.authors)}</Typography>
         </div>
         {article.projects.length > 0 && (
-          <div className='flex flex-row gap-2'>
-            <Typography>Projects:</Typography>
-            {article.projects.map((project) => {
-              return (
-                <div key={project.slug}>
-                  <Typography>{project.title}</Typography>
-                </div>
-              );
-            })}
-          </div>
+          <>
+            <Typography variant='h2'>Projects:</Typography>
+            <div className='flex flex-row gap-4 h-60 overflow-x-auto'>
+              {article.projects.map((project) => {
+                return <ProjectDisplay key={project.slug} project={project} />;
+              })}
+            </div>
+          </>
         )}
         <div
           className='article-content'

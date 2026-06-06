@@ -1,4 +1,4 @@
-import type { Author } from '../types/article';
+import type { Author } from '../types/webData';
 
 export const stringifyAuthors = (authors: Author[]) => {
   return authors
