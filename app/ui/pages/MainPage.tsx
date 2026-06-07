@@ -24,6 +24,10 @@ const MainPage: React.FC = () => {
         <Href href='https://titera.dev'>titera.dev</Href>. Keep in mind that
         this website is under development!
       </Typography>
+      <Typography>
+        Feel free to use the shortcut <kbd>Ctrl + K</kbd> to open the Command
+        Palette!
+      </Typography>
       {webData.articlesMeta.length > 0 ? (
         <div className='flex flex-col gap-4 my-4'>
           {webData.articlesMeta.map((articleMeta) => (

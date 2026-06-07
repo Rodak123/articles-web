@@ -2,6 +2,9 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 import { ThemeProvider } from './libs/providers/ThemeProvider';
 import { ErrorPage } from './ui/pages/ErrorPage';
 import './styles/main.css';
+import { CommandPalette } from './ui/components/cmdk/CommandPalette';
+import { KeyHubProvider } from 'react-keyhub';
+import { shortcuts } from './shorcuts';
 
 const App = () => {
   return (
@@ -12,10 +15,13 @@ const App = () => {
         <Meta />
         <Links />
       </head>
-      <body>
-        <ThemeProvider defaultThemeMode='system' useLS>
-          <Outlet />
-        </ThemeProvider>
+      <body className='relative'>
+        <KeyHubProvider shortcuts={shortcuts}>
+          <ThemeProvider defaultThemeMode='system' useLS>
+            <CommandPalette />
+            <Outlet />
+          </ThemeProvider>
+        </KeyHubProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

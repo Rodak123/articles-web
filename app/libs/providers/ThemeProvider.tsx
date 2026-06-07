@@ -34,7 +34,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     Object.values(Themes).forEach((val) => body.classList.remove(val));
     body.classList.add(theme);
 
-    const themeKey = Object.entries(Themes).find(
+    const themeKey = Object.entries(ThemeModes).find(
       ([, val]) => val === themeMode,
     )?.[0];
     if (useLS && themeKey) localStorage.setItem(themeLSKey, themeKey);

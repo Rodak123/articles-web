@@ -27,7 +27,7 @@
     @apply text-3xl;
   }
   p {
-    @apply font-normal leading-relaxed text-justify;
+    @apply font-normal leading-relaxed text-start;
   }
 
   /* Links */
