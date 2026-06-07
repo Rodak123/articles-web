@@ -5,10 +5,11 @@ import { Typography } from '../components/Typography';
 import { useLoaderData } from 'react-router';
 import { loadWebData } from '../../libs/api/loadWebData';
 import { Href } from '../components/Href';
+import { KeybindVisual } from '../components/cmdk/KeybindVisual';
+import { SHORTCUT_KEYS, shortcuts } from '../../shorcuts';
 
 export const loader = async () => {
   const webData = loadWebData();
-
   return { webData };
 };
 
@@ -25,8 +26,11 @@ const MainPage: React.FC = () => {
         this website is under development!
       </Typography>
       <Typography>
-        Feel free to use the shortcut <kbd>Ctrl + K</kbd> to open the Command
-        Palette!
+        Feel free to use the shortcut{' '}
+        <KeybindVisual
+          shortcut={shortcuts[SHORTCUT_KEYS.TOGGLE_COMMAND_PALETTE]}
+        />{' '}
+        to open the Command Palette!
       </Typography>
       {webData.articlesMeta.length > 0 ? (
         <div className='flex flex-col gap-4 my-4'>
