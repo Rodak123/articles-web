@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN npx quarkup m -o ./src/data/articles -m main.md ./articles
+RUN npx quarkup m -o ./app/data/articles -m main.md ./articles
 
 RUN npm run build
 
