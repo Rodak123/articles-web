@@ -1,5 +1,5 @@
 import type { Article } from '../types/webData';
-import { getRawArticleLoaders } from './articleLoaders';
+import { findArticleFileKey, getRawArticleLoaders } from './articleLoaders';
 import { loadWebData } from './loadWebData';
 
 const { articlesMeta } = loadWebData();
@@ -11,9 +11,7 @@ export const loadArticle = async (articleSlug?: string) => {
   );
 
   try {
-    const fileKey = Object.keys(articleLoaders).find((path) =>
-      path.includes(`/${articleSlug}/index.html`),
-    );
+    const fileKey = findArticleFileKey(articleSlug);
 
     if (
       fileKey === undefined ||

@@ -23,6 +23,8 @@ export const ArticleLinkCommandGroup: React.FC<
     closeMenu();
   };
 
+  if (articlesMeta.length === 0) return;
+
   return (
     <CustomCommandGroup heading='Articles'>
       {articlesMeta.map((articleMeta) => {

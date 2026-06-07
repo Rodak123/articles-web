@@ -26,7 +26,6 @@ export const PageCommandGroup: React.FC<PageCommandGroupProps> = ({
       >
         <Typography>Go home</Typography>
       </CustomCommandItem>
-      );
     </CustomCommandGroup>
   );
 };

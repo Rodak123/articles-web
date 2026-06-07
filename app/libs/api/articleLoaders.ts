@@ -12,3 +12,10 @@ export const getRawWebDataJSON = () => {
 export const getRawArticleLoaders = () => {
   return articleLoaders as Record<string, () => Promise<string>>;
 };
+
+export const findArticleFileKey = (articleSlug?: string) => {
+  if (articleSlug === undefined) return undefined;
+  return Object.keys(articleLoaders).find((path) =>
+    path.includes(`/${articleSlug}/index.html`),
+  );
+};

@@ -5,12 +5,14 @@ import {
   WebDataSchema,
   type Project,
 } from '../types/webData';
-import { getRawWebDataJSON } from './articleLoaders';
+import { findArticleFileKey, getRawWebDataJSON } from './articleLoaders';
 
 export const loadWebData = (): WebData => {
   const json = getRawWebDataJSON();
+  // prase and validate JSON using zod
   const webData = WebDataSchema.parse(json);
 
+  // load all authors
   const authors: Author[] = Object.keys(webData.authors).map((authorSlug) => {
     return {
       ...webData.authors[authorSlug],
@@ -18,6 +20,7 @@ export const loadWebData = (): WebData => {
     };
   });
 
+  // load all projects
   const projects: Project[] = Object.keys(webData.projects).map(
     (projectSlug) => {
       return {
@@ -27,8 +30,10 @@ export const loadWebData = (): WebData => {
     },
   );
 
-  const articlesMeta: ArticleMeta[] = Object.keys(webData.articles).map(
-    (articleSlug) => {
+  // load all articles meta
+  const articlesMeta: ArticleMeta[] = Object.keys(webData.articles)
+    .map((articleSlug) => {
+      // first load the data and construct the article meta
       const articleMeta = webData.articles[articleSlug];
 
       const articleAuthors: Author[] = articleMeta.authors.map((authorSlug) => {
@@ -60,12 +65,16 @@ export const loadWebData = (): WebData => {
         authors: articleAuthors,
         projects: articleProjects,
       };
-    },
-  );
-
-  articlesMeta.sort((articleA, articleB) => {
-    return articleB.date.getTime() - articleA.date.getTime();
-  });
+    })
+    .reduce((prev: ArticleMeta[], curr) => {
+      // then filter out all missing articles
+      if (findArticleFileKey(curr.slug) === undefined) return prev;
+      return [...prev, curr];
+    }, [])
+    .sort((articleA, articleB) => {
+      // last sort by the published date
+      return articleB.date.getTime() - articleA.date.getTime();
+    });
 
   return {
     projects,
