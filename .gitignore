@@ -27,5 +27,5 @@ build
 
 .env
 
-src/data/articles/
+app/data/articles
 
