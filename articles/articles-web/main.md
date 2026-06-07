@@ -37,7 +37,7 @@ This felt like I've struck gold and after ensuring that the project is not aband
 
 One of the core goals was CI/CD so it made sense to start by setting up Quarkdown in a way that allows each article to be indexed automatically and use a template. 
 
-```txt {8,31}
+```qd {8,31}
 .docname {Radek Titěra - Projects And Articles}
 .doctype {plain}
 .doclang {English}
@@ -73,7 +73,7 @@ One of the core goals was CI/CD so it made sense to start by setting up Quarkdow
 
 Here is the `main.qd` file snippet which defines the document and loops over the articles. I found out that Quarkdown can't search files and also that it can't parse JSON so I just manually defined the articles in the `articles/articles.qd` file (8th line). I figured that this task can be automated easily with bash later. At the bottom (31st line) I include the `template.qd` template file.
 
-```txt {11}
+```qd {11}
 .theme {galactic} layout:{hyperlegible}
 
 .css {.read {styles/theme.css}}
@@ -91,7 +91,7 @@ This is the `template.qd` file. It themes the page, adds navigation and then cal
 
 The last step was to deploy it using a Dockerfile:
 
-```Dockerfile
+```dockerfile
 # Stage 1: Build
 
 # Part 1: Setup
@@ -135,5 +135,31 @@ On top of that Quarkdown could only export a full HTML website and not just comp
 ### Quarkup
 
 Which is why I went hunting for solutions again and found [unifiedjs](https://unifiedjs.com/). This library allows to work with content as structured data, which includes understanding markdown syntax and compiling it into HTML.
+
+```ts {5}
+const outputVFile = await unified()
+  .use(remarkParse) // to MD AST
+  .use(remarkMath) // parse math
+  .use(remarkGfm) // parse Github FM
+  .use(remarkWritedown) // parse custom Writedown syntax
+
+  .use(remarkRehype) // MD to HTML
+
+  .use(rehypeSlug) // Add id to headings
+  .use(rehypeMathjax) // render math
+  .use(rehypeMathjaxFigure) // wrap math in <figure>
+
+  .use(rehypePrettyCode, {
+    theme: 'github-dark-dimmed',
+    grid: true,
+    getHighlighter: customGetHighlighter,
+  }) // render code
+
+  .use(rehypeStringify) // to HTML text
+
+  .process(source);
+```
+
+Here is the main compilation process.
 
 ## Rendering
