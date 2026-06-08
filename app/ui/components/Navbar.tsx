@@ -3,15 +3,22 @@ import { cm } from '../../libs/utils/cm';
 import { ThemeToggleButton } from './ThemeToggleButton';
 import { Typography } from './Typography';
 
-interface NavbarProps {
+interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ title }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  title,
+  className,
+  ...props
+}) => {
   const { isMobile } = useResponsive();
 
   return (
-    <nav className='w-full flex flex-row items-start'>
+    <nav
+      {...props}
+      className={cm(className, 'w-full flex flex-row items-start')}
+    >
       <div className='grow'>
         <Typography
           variant='h1'

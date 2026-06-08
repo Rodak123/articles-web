@@ -18,6 +18,7 @@ export const ArticleLink: React.FC<ArticleLinkProps> = ({ articleMeta }) => {
       to={ROUTE_PATHS.ARTICLE(articleMeta.slug)}
       className='group'
       title={`Go to article ${articleMeta.title}`}
+      viewTransition
     >
       <div className='p-2 flex flex-row gap-4 items-center'>
         <div className='h-8 w-auto aspect-square relative'>
@@ -38,22 +39,20 @@ export const ArticleLink: React.FC<ArticleLinkProps> = ({ articleMeta }) => {
             )}
           />
         </div>
-        <div className='flex flex-col grow'>
-          {isMobile ? (
-            <>
-              <Typography size='2xl' variant='h2'>
-                {articleMeta.title}
-              </Typography>
-              <Typography>@ {articleMeta.date.toLocaleDateString()}</Typography>
-            </>
-          ) : (
-            <div className='flex flex-row items-center gap-2'>
-              <Typography size='2xl' variant='h2' className='inline-block grow'>
-                {articleMeta.title}
-              </Typography>
-              <Typography>@ {articleMeta.date.toLocaleDateString()}</Typography>
-            </div>
-          )}
+        <div className='flex flex-col grow gap-2'>
+          <div
+            className={cm(
+              'flex flex-col justify-between gap-2',
+              !isMobile && 'flex-row items-center',
+            )}
+          >
+            <Typography size='2xl' variant='h2' className='grow'>
+              {articleMeta.title}
+            </Typography>
+            <Typography className='shrink-0'>
+              @ {articleMeta.date.toLocaleDateString()}
+            </Typography>
+          </div>
           <Typography size='md'>{articleMeta.description}</Typography>
         </div>
       </div>

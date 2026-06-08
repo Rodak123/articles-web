@@ -7,11 +7,13 @@ import { PageMetaRenderer } from '../../components/PageMetaRenderer';
 interface DefaultLayoutProps {
   children: React.ReactNode;
   customPageMeta?: Partial<PageMeta>;
+  pageName?: string;
 }
 
 export const DefaultLayout: React.FC<DefaultLayoutProps> = ({
   children,
   customPageMeta = {},
+  pageName = '',
 }) => {
   const { isMobile } = useResponsive();
 
@@ -26,10 +28,15 @@ export const DefaultLayout: React.FC<DefaultLayoutProps> = ({
       <div
         className={cm(
           isMobile ? 'p-2' : 'p-12',
+          pageName,
           'flex flex-col items-center min-h-screen',
         )}
       >
-        <div className='max-w-200 w-full grow flex flex-col'>{children}</div>
+        <div
+          className={cm('w-full grow flex flex-col', !isMobile && 'max-w-200')}
+        >
+          {children}
+        </div>
       </div>
     </>
   );

@@ -17,7 +17,7 @@ const MainPage: React.FC = () => {
   const { webData } = useLoaderData<typeof loader>();
 
   return (
-    <DefaultLayout>
+    <DefaultLayout pageName='main-page'>
       <Navbar title="Radek's Articles" />
       <Typography>
         Here are articles about my projects and discoveries. Read more about me
@@ -25,7 +25,7 @@ const MainPage: React.FC = () => {
         <Href href='https://titera.dev'>titera.dev</Href>. Keep in mind that
         this website is under development!
       </Typography>
-      <Typography>
+      <Typography className='noscript:hidden'>
         Feel free to use the shortcut{' '}
         <KeybindVisual
           shortcut={shortcuts[SHORTCUT_KEYS.TOGGLE_COMMAND_PALETTE]}
