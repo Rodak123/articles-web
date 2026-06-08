@@ -12,7 +12,7 @@ export const ThemeToggleButton: React.FC = () => {
 
   return (
     <Button
-      className='h-min w-auto aspect-square'
+      className='h-min w-auto aspect-square noscript:hidden'
       variant='ghost'
       title={`Change color theme to ${getNextThemeMode()}`}
       onClick={handleOnClick}

@@ -1,4 +1,4 @@
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
+import { Links, Meta, Outlet, Scripts } from 'react-router';
 import { ThemeProvider } from './libs/providers/ThemeProvider';
 import { ErrorPage } from './ui/pages/ErrorPage';
 import './styles/main.css';
@@ -22,7 +22,6 @@ const App = () => {
             <Outlet />
           </ThemeProvider>
         </KeyHubProvider>
-        <ScrollRestoration />
         <Scripts />
       </body>
     </html>

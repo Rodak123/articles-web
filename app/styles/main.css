@@ -1,6 +1,7 @@
 @import './theme.css';
 @import './fonts.css';
 @import './article.css';
+@import './view-transition.css';
 
 .pretty-link {
   @apply relative font-bold no-underline transition-colors duration-300 inline-block;

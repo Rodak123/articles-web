@@ -14,7 +14,7 @@ export const PageCommandGroup: React.FC<PageCommandGroupProps> = ({
   const navigate = useNavigate();
 
   const handleOpenHomePage = () => {
-    navigate(ROUTE_PATHS.HOME());
+    navigate(ROUTE_PATHS.HOME(), { viewTransition: true });
     closeMenu();
   };
 

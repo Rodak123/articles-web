@@ -1,0 +1,40 @@
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  /* Main Page <-> Article Page */
+  ::view-transition-group(nav-title) {
+    animation-duration: 300ms;
+    animation-timing-function: ease;
+  }
+
+  ::view-transition-old(nav-title) {
+    animation-name: nav-title-old;
+  }
+
+  @keyframes nav-title-old {
+    to {
+      transform: translateX(-100px);
+      opacity: 0;
+    }
+  }
+
+  ::view-transition-new(nav-title) {
+    animation-name: nav-title-new;
+  }
+
+  @keyframes nav-title-new {
+    from {
+      transform: translateX(100px);
+      opacity: 0;
+    }
+  }
+
+  .article-page,
+  .main-page {
+    nav h1 {
+      view-transition-name: nav-title;
+    }
+  }
+}

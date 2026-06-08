@@ -19,7 +19,7 @@ export const ArticleLinkCommandGroup: React.FC<
   const navigate = useNavigate();
 
   const handleOpenArticle = (articleMeta: ArticleMeta) => {
-    navigate(ROUTE_PATHS.ARTICLE(articleMeta.slug));
+    navigate(ROUTE_PATHS.ARTICLE(articleMeta.slug), { viewTransition: true });
     closeMenu();
   };
 

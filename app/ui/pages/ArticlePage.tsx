@@ -35,13 +35,21 @@ const ArticlePage = () => {
         description: article.description,
         author: stringifyAuthors(article.authors),
       }}
+      pageName='article-page'
     >
-      <Navbar title={article.title} />
+      <Navbar
+        title={article.title}
+        style={{
+          viewTransitionName: `article-title-${article.slug}`,
+        }}
+      />
       <div className='flex flex-col gap-2 grow'>
         <div className='flex flex-row items-center gap-2 mt-1'>
           <ReturnLink />
           <LineVerticalIcon />
-          <Typography>{stringifyDate(article.date)}</Typography>
+          <Typography className='article-date'>
+            {stringifyDate(article.date)}
+          </Typography>
           <LineVerticalIcon />
           <Typography>{stringifyAuthors(article.authors)}</Typography>
         </div>
@@ -68,10 +76,16 @@ const ArticlePage = () => {
               <Link
                 to={ROUTE_PATHS.ARTICLE(article.next.slug)}
                 className='grow md:grow-0'
+                viewTransition
               >
                 <div className='flex flex-row items-center gap-2'>
                   <ArrowUpIcon />
-                  <Typography className='font-bold'>
+                  <Typography
+                    className='font-bold'
+                    style={{
+                      viewTransitionName: `article-title-${article.next.slug}`,
+                    }}
+                  >
                     {article.next.title}
                   </Typography>
                 </div>
@@ -81,10 +95,16 @@ const ArticlePage = () => {
               <Link
                 to={ROUTE_PATHS.ARTICLE(article.previous.slug)}
                 className='grow md:grow-0'
+                viewTransition
               >
                 <div className='flex flex-row items-center gap-2'>
                   <ArrowDownIcon />
-                  <Typography className='font-bold'>
+                  <Typography
+                    className='font-bold'
+                    style={{
+                      viewTransitionName: `article-title-${article.previous.slug}`,
+                    }}
+                  >
                     {article.previous.title}
                   </Typography>
                 </div>
