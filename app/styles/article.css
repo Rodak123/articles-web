@@ -90,7 +90,7 @@
       @apply w-full overflow-x-auto rounded-xl py-4 shadow-lg;
     }
     code {
-      @apply inline-block text-sm leading-6 break-all text-wrap;
+      @apply inline-block text-sm leading-6 lg:break-all lg:text-wrap;
       counter-reset: line;
 
       & > [data-line] {

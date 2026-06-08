@@ -45,7 +45,7 @@
     "articles-web": {
       "title": "Personal Site",
       "description": "How I made my personal web and automated deployment using Docker and Github Actions.",
-      "date": "6/1/2026",
+      "date": "6/8/2026",
       "authors": ["radek"],
       "projects": ["articles-web", "quarkup"]
     }
