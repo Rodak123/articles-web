@@ -6,7 +6,7 @@ import { useLoaderData } from 'react-router';
 import { loadWebData } from '../../libs/api/loadWebData';
 import { Href } from '../components/Href';
 import { KeybindVisual } from '../components/cmdk/KeybindVisual';
-import { SHORTCUT_KEYS, shortcuts } from '../../shorcuts';
+import { SHORTCUT_KEYS, shortcuts } from '../../shortcuts';
 
 export const loader = async () => {
   const webData = loadWebData();

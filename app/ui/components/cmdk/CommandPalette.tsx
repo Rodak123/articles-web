@@ -6,7 +6,7 @@ import { ArticleLinkCommandGroup } from './commands/ArticleLinkCommandGroup';
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog';
 import { ChangeThemeCommandGroup } from './commands/ChangeThemeCommandGroup';
 import { useShortcut } from 'react-keyhub';
-import { SHORTCUT_KEYS } from '../../../shorcuts';
+import { SHORTCUT_KEYS } from '../../../shortcuts';
 import { PageCommandGroup } from './commands/PageCommandGroup';
 
 export const CommandPalette = () => {

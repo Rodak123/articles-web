@@ -9,11 +9,11 @@ import {
   LineVerticalIcon,
 } from '@phosphor-icons/react';
 import { ROUTE_PATHS } from '../../config';
-import { stringifyDate } from '../../libs/utils/stringifyDate';
 import { loadArticle } from '../../libs/api/loadArticle';
 import type { Route } from './+types/ArticlePage';
 import { stringifyAuthors } from '../../libs/utils/stringifyAuthors';
 import { ProjectDisplay } from '../components/ProjectDisplay';
+import { DateVisual } from '../components/DateVisual';
 
 export const loader = async ({ params }: Route.LoaderArgs) => {
   const article = await loadArticle(params.articleSlug);
@@ -27,6 +27,21 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
 
 const ArticlePage = () => {
   const { article } = useLoaderData<typeof loader>();
+
+  const Projects = (
+    <>
+      {article.projects.length > 0 && (
+        <>
+          <Typography variant='h2'>Projects:</Typography>
+          <div className='flex flex-row gap-4 h-60 overflow-x-auto'>
+            {article.projects.map((project) => {
+              return <ProjectDisplay key={project.slug} project={project} />;
+            })}
+          </div>
+        </>
+      )}
+    </>
+  );
 
   return (
     <DefaultLayout
@@ -47,27 +62,18 @@ const ArticlePage = () => {
         <div className='flex flex-row items-center gap-2 mt-1'>
           <ReturnLink />
           <LineVerticalIcon />
-          <Typography className='article-date'>
-            {stringifyDate(article.date)}
-          </Typography>
+          <DateVisual date={article.date} />
           <LineVerticalIcon />
           <Typography>{stringifyAuthors(article.authors)}</Typography>
         </div>
-        {article.projects.length > 0 && (
-          <>
-            <Typography variant='h2'>Projects:</Typography>
-            <div className='flex flex-row gap-4 h-60 overflow-x-auto'>
-              {article.projects.map((project) => {
-                return <ProjectDisplay key={project.slug} project={project} />;
-              })}
-            </div>
-          </>
-        )}
+        {Projects}
         <div
           className='article-content'
           dangerouslySetInnerHTML={{ __html: article.htmlContent }}
         />
       </div>
+      <hr className='my-4 text-text-700' />
+      {Projects}
       {(article.next || article.previous) && (
         <div className='flex flex-col gap-2 mt-4'>
           <Typography variant='h2'>Read more:</Typography>

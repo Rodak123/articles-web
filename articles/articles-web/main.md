@@ -19,7 +19,9 @@ The very first step was to pick the format and software that I'll use for writin
 
 ### Google Docs & Microsoft Word
 
-Since I have written larger documents in both [Google Docs](https://en.wikipedia.org/wiki/Google_Docs) and [Microsoft Word](https://en.wikipedia.org/wiki/Microsoft_Word), that was the first place I looked. However these apps are primarily intended to be used for exporting into PDF's, not HTML. Actually, I did find that Google Docs support exporting as an styled HTML [here](https://support.google.com/docs/thread/95093737/how-to-convert-google-doc-to-html?hl=en), but that still wasn't ideal because: **A.** I wanted full separation of styling and writing and **B.** I wanted to use only FOSS.
+Since I have written larger documents in both [Google Docs](https://en.wikipedia.org/wiki/Google_Docs) and [Microsoft Word](https://en.wikipedia.org/wiki/Microsoft_Word), that was the first place I looked. However these apps are primarily intended to be used for exporting into PDF's, not HTML. Actually, I did find that Google Docs supports exporting as an styled HTML on [support.google.com](https://support.google.com/docs/thread/95093737/how-to-convert-google-doc-to-html?hl=en), but that still wasn't ideal because:
+- I wanted full separation of styling and writing.
+- I wanted to use only FOSS.
 
 ### Markdown
 
@@ -31,13 +33,13 @@ At this time I also started to think about which languages and frameworks I want
 
 #### Quarkdown
 
-Somehow I stumbled into [Quarkdown](https://quarkdown.com/), which is supposed to be *Markdown with superpowers*. And they are *not* wrong. Quarkdown does support an impressive wide range of functionality over markdown: table of contents, bibliography, footnotes, file importing, functions, cross references, figures and [more](https://quarkdown.com/wiki/). It also provides some default [color and layout](https://quarkdown.com/wiki/themes/) themes to style the document. And most importantly it compiles the documents into HTML (that's what I need!!).
+Somehow I stumbled onto [Quarkdown](https://quarkdown.com/), which is supposed to be *Markdown with superpowers*. And they are *not* wrong. Quarkdown does support an impressive wide range of functionality over markdown: table of contents, bibliography, footnotes, file importing, functions, cross references, figures and [more](https://quarkdown.com/wiki/). It also provides some default [color and layout](https://quarkdown.com/wiki/themes/) themes to style the document. And most importantly it compiles the documents into HTML (that's what I need!!).
 
 This felt like I've struck gold and after ensuring that the project is not abandoned and maintained on [GitHub](https://github.com/iamgio/quarkdown), which it easily passed with **15.4k** stars and weekly commits, I started to experiment with Quarkdown to both learn how to use it and figure out a way to automate the compilation and deployment process.
 
 One of the core goals was CI/CD so it made sense to start by setting up Quarkdown in a way that allows each article to be indexed automatically and use a template. 
 
-```qd {8,31}
+```qd {8,31} title="main.qd"
 .docname {Radek Titěra - Projects And Articles}
 .doctype {plain}
 .doclang {English}
@@ -73,7 +75,7 @@ One of the core goals was CI/CD so it made sense to start by setting up Quarkdow
 
 Here is the `main.qd` file snippet which defines the document and loops over the articles. I found out that Quarkdown can't search files and also that it can't parse JSON so I just manually defined the articles in the `articles/articles.qd` file (8th line). I figured that this task can be automated easily with bash later. At the bottom (31st line) I include the `template.qd` template file.
 
-```qd {11}
+```qd {11} title="template.qd"
 .theme {galactic} layout:{hyperlegible}
 
 .css {.read {styles/theme.css}}
@@ -91,7 +93,7 @@ This is the `template.qd` file. It themes the page, adds navigation and then cal
 
 The last step was to deploy it using a Dockerfile:
 
-```dockerfile
+```dockerfile title="Dockerfile"
 # Stage 1: Build
 
 # Part 1: Setup
@@ -140,7 +142,7 @@ Which is why I went hunting for solutions again (but this time without using com
 
 That led me to create my own custom markdown compiler called `quarkup`. Yes, it is meant to sound similar to Quarkdown, simply because I knew that Quarkup would move my progress up rather than down ;).
 
-```ts {5}
+```ts {5} title="Compiler.ts"
 const outputVFile = await unified()
   .use(remarkParse) // to MD AST
   .use(remarkMath) // parse math
@@ -170,7 +172,7 @@ After that the `remarkRehype` converts from remark to rehype (rehype is a proces
 
 With this process I'm able to easily convert any markdown to a nicely structured HTML with a lot of styling and structure freedom. This is really good, but I need to also support some custom syntax to allow for table of contents, references, etc. That's where the custom remark plugin `remarkQuarkup` comes in.
 
-```ts
+```ts title="TableOfContents.ts"
 const TableOfContentsSchema = z.object({
   maxDepth: z
     .preprocess(
@@ -225,13 +227,13 @@ export class TableOfContents extends QuarkupKeywordDefinition<
 
 Here is the definition of the quarkup table of contents keyword. I've chosen an OOP approach to define the keywords simply because I find it very organized. I'm using zod to define the keyword options, which then get validated and parsed. In the constructor the keyword specifies it's name. And finally, the `_use` method gets called when the plugin finds this keyword used.
 
-As of writing this, Qurakup is not quite finished, but it is now in a usable state (this article was compiled using it also).
+As of writing this, Quarkup is not quite finished, but it is now in a usable state (this article was compiled using it also).
 
 #### Publishing package
 
 Now let's talk about the very important goal. Learning to do proper automation using Github Actions.
 
-```yml
+```yml title="publish.yml"
 name: Publish Package
 
 on:
@@ -262,7 +264,7 @@ jobs:
 
 This is the final `publish.yml` workflow file I've ended up with. NPM made it actually pretty simple to automate publishing new package versions. The only requirement before doing this is to configure Trusted Publishers (here is the [guide](https://docs.npmjs.com/trusted-publishers#supported-cicd-providers)). This action then just builds and publishes the package using the npm CLI tool. To run this action just publish a new tag with the name starting with **v** and it will start. Also don't forget to add these scripts (note that the tests are not yet done) to `package.json` as well as the target published files.
 
-```json
+```json title="package.json"
 {
   "name": "quarkup",
   "type": "module",
@@ -290,7 +292,7 @@ As I mentioned above I already had made a basic website with react (using my [te
 
 This article website is meant to be simple and easy to use, both on mobile and desktop. I'm also trying to make it as accessible as possible, but I have a lot to learn in this area, so please feel free to tell me what I have wrong (or make an pull request :D ) and I will try to fix it.
 
-Lastly I wanted to also a command palette for this website. I believe that having a command palette should be recognized as a design standard for most website, since it makes using any website more straightforward, intuitive and fast (pretty buttons and menus are nice, but memorizing it for each website is not great). So to implement it, I've found a React package [cmdk](https://github.com/dip/cmdk) a.k.a. ⌘K. It's a nice library for defining the menu and commands without it forcing a style. Go ahead and try to open the command palette using Ctrl + K or ⌘ + K :D.
+Lastly I wanted to also a command palette for this website. I believe that having a command palette should be recognized as a design standard for most website, since it makes using any website more straightforward, intuitive and fast (pretty buttons and menus are nice, but memorizing it for each website is not great). So to implement it, I've found a React package [cmdk](https://github.com/dip/cmdk) a.k.a. ⌘K. It's a nice library for defining the menu and commands without it forcing a style. Go ahead and try to open the command palette using Ctrl + K or Control ^ + K :D.
 
 ### Deploying web
 
@@ -302,7 +304,7 @@ Again, let's talk about automation. This time it will be somewhat more difficult
 
 So first, the `Dockerfile`.
 
-```dockerfile {11}
+```dockerfile {11} title="Dockerfile"
 # Stage 1: Build
 FROM node:24-alpine AS build-stage
 
@@ -335,7 +337,7 @@ CMD ["npx", "react-router-serve", "./build/server/index.js"]
 
 It is a simple node Dockerfile, which builds the client and the built-in React Router server into the `./build` folder. Then it copies that into a production node image, where it serves it on port 3000. The very crucial step (11th line) is where Quarkup compiles the articles into the React source folder `./app`.
 
-```yml
+```yml title="deploy.yml"
 name: Build and deploy to VPS
 
 on:
@@ -390,7 +392,7 @@ jobs:
             docker image prune -f
 ```
 
-This `deploy.yml` workflow file has 2 jobs: `build-and-push` and `deploy`. `build-and-push` uses the Dockerfile above to build a Docker image and push it to ghcr.io (GitHub Container Repository). `deploy` uses appleboy's ssh-action to access my server as a user with limited access (I won't describe how to do that here) and there it pulls the newest version of the image.
+This `deploy.yml` workflow file has 2 jobs: `build-and-push` and `deploy`. `build-and-push` uses the Dockerfile above to build a Docker image and push it to ghcr.io (GitHub Container Repository). `deploy` uses appleboy's ssh-action to access my server as a user with limited access (I won't describe how to do that in this article) and there it pulls the newest version of the image.
 
 Also don't forget to secure your VPS! You can use this useful guide: [Setting Up and Securing VPS](https://blog.kyncl.dev/articles/securing-vps.html).
 

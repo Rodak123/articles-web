@@ -66,11 +66,28 @@
   /* Lists */
   & > ul,
   & > ol {
-    @apply ps-8 list-decimal;
+    @apply ps-8;
   }
 
-  & > ul li::marker {
+  & > ul {
+    @apply list-none;
+  }
+
+  & > ol {
+    @apply list-decimal;
+  }
+
+  & > ul > li::marker {
     content: '  ';
+  }
+
+  & li > ul,
+  & li > ol {
+    @apply ps-8;
+  }
+
+  & li > ul > li::marker {
+    content: '󰋙  ';
   }
 
   /* Blockquotes */
@@ -84,21 +101,34 @@
 
   /* rehype-pretty-code */
   & > figure[data-rehype-pretty-code-figure] {
-    @apply my-8 flex justify-center;
+    @apply my-8 flex flex-col;
+
+    & > figcaption {
+      @apply ps-4 text-text-900;
+
+      &::before {
+        content: '// ';
+        font-weight: bold;
+      }
+    }
 
     pre {
       @apply w-full overflow-x-auto rounded-xl py-4 shadow-lg;
     }
     code {
-      @apply inline-block text-sm leading-6 lg:break-all lg:text-wrap;
-      counter-reset: line;
+      @apply grid min-w-full text-sm leading-6 lg:break-all lg:text-wrap;
+
+      counter-reset: step;
+      counter-increment: step 0;
 
       & > [data-line] {
         @apply border-l-4 border-l-transparent px-4;
+
         &::before {
-          counter-increment: line;
-          content: counter(line);
-          @apply mr-6 inline-block w-4 text-right opacity-50;
+          @apply mr-6 inline-block w-6 text-right opacity-50 select-none;
+
+          content: counter(step);
+          counter-increment: step;
         }
       }
       & > [data-highlighted-line] {

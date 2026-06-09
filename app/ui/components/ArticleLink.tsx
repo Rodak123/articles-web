@@ -5,6 +5,7 @@ import { cm } from '../../libs/utils/cm';
 import { ROUTE_PATHS } from '../../config';
 import { Typography } from './Typography';
 import { useResponsive } from '../../libs/hooks/useResponsive';
+import { DateVisual } from './DateVisual';
 
 interface ArticleLinkProps {
   articleMeta: ArticleMeta;
@@ -49,8 +50,8 @@ export const ArticleLink: React.FC<ArticleLinkProps> = ({ articleMeta }) => {
             <Typography size='2xl' variant='h2' className='grow'>
               {articleMeta.title}
             </Typography>
-            <Typography className='shrink-0'>
-              @ {articleMeta.date.toLocaleDateString()}
+            <Typography>
+              @ <DateVisual date={articleMeta.date} />
             </Typography>
           </div>
           <Typography size='md'>{articleMeta.description}</Typography>

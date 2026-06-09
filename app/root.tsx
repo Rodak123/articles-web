@@ -4,7 +4,7 @@ import { ErrorPage } from './ui/pages/ErrorPage';
 import './styles/main.css';
 import { CommandPalette } from './ui/components/cmdk/CommandPalette';
 import { KeyHubProvider } from 'react-keyhub';
-import { shortcuts } from './shorcuts';
+import { shortcuts } from './shortcuts';
 
 const App = () => {
   return (
